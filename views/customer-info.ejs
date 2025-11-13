@@ -1,0 +1,338 @@
+<%- include('partials/header') %>
+
+<!-- Customer Information Collection Page -->
+<section class="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Progress Indicator -->
+        <div class="mb-12">
+            <div class="flex items-center justify-center space-x-4 mb-8">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                    <span class="ml-3 text-blue-600 font-semibold">Customer Info</span>
+                </div>
+                <div class="w-16 h-1 bg-gray-300 rounded"></div>
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">2</div>
+                    <span class="ml-3 text-gray-500 font-semibold">Checkout</span>
+                </div>
+                <div class="w-16 h-1 bg-gray-300 rounded"></div>
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">3</div>
+                    <span class="ml-3 text-gray-500 font-semibold">Confirmation</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Information Form -->
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200">
+            
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-4 md:p-8">
+                <div class="text-center">
+                    <h1 class="text-2xl md:text-3xl font-bold mb-2">Customer Information</h1>
+                    <p class="text-blue-100 text-sm md:text-base">Please provide your details to proceed with the order</p>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form id="customerInfoForm" class="p-4 md:p-8 space-y-6 md:space-y-8">
+                
+                <!-- Personal Information -->
+                <div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6 flex items-center">
+                        <i class="fas fa-user text-blue-600 mr-2 md:mr-3"></i>
+                        Personal Information
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <div>
+                            <label for="firstName" class="block text-sm font-semibold text-gray-700 mb-2">
+                                First Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="firstName" name="firstName" required
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+                                   placeholder="Enter your first name">
+                        </div>
+                        
+                        <div>
+                            <label for="lastName" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Last Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="lastName" name="lastName" required
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+                                   placeholder="Enter your last name">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                        <i class="fas fa-phone text-blue-600 mr-3"></i>
+                        Contact Information
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="mobile" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Mobile Number <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 font-semibold">+91</span>
+                                </div>
+                                <input type="tel" id="mobile" name="mobile" required pattern="[0-9]{10}"
+                                       class="w-full pl-16 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+                                       placeholder="Enter 10-digit mobile number">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Email Address <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" id="email" name="email" required
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+                                   placeholder="Enter your email address">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Information -->
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                        <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i>
+                        Delivery Address
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label for="address" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Complete Address <span class="text-red-500">*</span>
+                            </label>
+                            <textarea id="address" name="address" required rows="3"
+                                      class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+                                      placeholder="Enter your complete address (House/Flat No., Street, Area, Landmark)"></textarea>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="pincode" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    PIN Code <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="pincode" name="pincode" required pattern="[0-9]{6}"
+                                       class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+                                       placeholder="Enter 6-digit PIN code">
+                            </div>
+                            
+                            <div>
+                                <label for="city" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    City <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="city" name="city" required
+                                       class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+                                       placeholder="Enter your city">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="state" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    State <span class="text-red-500">*</span>
+                                </label>
+                                <select id="state" name="state" required
+                                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300">
+                                    <option value="">Select State</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Haryana">Haryana</option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Manipur">Manipur</option>
+                                    <option value="Meghalaya">Meghalaya</option>
+                                    <option value="Mizoram">Mizoram</option>
+                                    <option value="Nagaland">Nagaland</option>
+                                    <option value="Odisha">Odisha</option>
+                                    <option value="Punjab">Punjab</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Sikkim">Sikkim</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Tripura">Tripura</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Uttarakhand">Uttarakhand</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                    <option value="Delhi">Delhi</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="country" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Country <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="country" name="country" value="India" readonly
+                                       class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-600">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-200">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-shopping-cart text-blue-600 mr-3"></i>
+                        Order Summary
+                    </h3>
+                    
+                    <div id="orderSummary" class="space-y-4">
+                        <!-- Order items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="bg-gray-50 rounded-2xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <input type="checkbox" id="terms" name="terms" required
+                               class="mt-1 w-5 h-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                        <label for="terms" class="text-sm text-gray-700 leading-relaxed">
+                            I agree to the <a href="/terms" class="text-blue-600 hover:text-blue-700 font-semibold">Terms and Conditions</a> 
+                            and <a href="/privacy" class="text-blue-600 hover:text-blue-700 font-semibold">Privacy Policy</a>. 
+                            I understand that this is a medical equipment purchase and all sales are final unless the product is defective.
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 pt-8 border-t border-gray-200">
+                    <button type="button" onclick="goBack()" 
+                            class="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-4 px-8 rounded-xl transition-all duration-300">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Product
+                    </button>
+                    
+                    <button type="submit" 
+                            class="w-full sm:flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-arrow-right mr-2"></i>Proceed to Checkout
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+// Load order summary from session storage
+document.addEventListener('DOMContentLoaded', function() {
+    loadOrderSummary();
+});
+
+function loadOrderSummary() {
+    const orderData = JSON.parse(sessionStorage.getItem('orderData') || '{}');
+    const orderSummaryDiv = document.getElementById('orderSummary');
+    
+    if (orderData.product) {
+        orderSummaryDiv.innerHTML = `
+            <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-blue-200">
+                <div class="flex items-center space-x-4">
+                    <img src="${orderData.product.image || '/images/placeholder-medical.jpg'}" 
+                         alt="${orderData.product.name}" 
+                         class="w-16 h-16 object-cover rounded-lg">
+                    <div>
+                        <h4 class="font-semibold text-gray-900">${orderData.product.name}</h4>
+                        <p class="text-sm text-gray-600">Quantity: ${orderData.quantity}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-xl font-bold text-blue-600">₹${(orderData.product.price * orderData.quantity).toLocaleString()}</div>
+                    <div class="text-sm text-gray-600">₹${orderData.product.price.toLocaleString()} each</div>
+                </div>
+            </div>
+        `;
+    } else {
+        orderSummaryDiv.innerHTML = `
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-shopping-cart text-4xl mb-4"></i>
+                <p>No items in order. Please go back and select a product.</p>
+            </div>
+        `;
+    }
+}
+
+// Form submission
+document.getElementById('customerInfoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Collect form data
+    const formData = new FormData(this);
+    const customerInfo = {};
+    
+    for (let [key, value] of formData.entries()) {
+        customerInfo[key] = value;
+    }
+    
+    // Validate required fields
+    const requiredFields = ['firstName', 'lastName', 'mobile', 'email', 'address', 'pincode', 'city', 'state'];
+    const missingFields = requiredFields.filter(field => !customerInfo[field]);
+    
+    if (missingFields.length > 0) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+    
+    // Validate mobile number
+    if (!/^[0-9]{10}$/.test(customerInfo.mobile)) {
+        showNotification('Please enter a valid 10-digit mobile number', 'error');
+        return;
+    }
+    
+    // Validate PIN code
+    if (!/^[0-9]{6}$/.test(customerInfo.pincode)) {
+        showNotification('Please enter a valid 6-digit PIN code', 'error');
+        return;
+    }
+    
+    // Store customer info in session storage
+    sessionStorage.setItem('customerInfo', JSON.stringify(customerInfo));
+    
+    // Redirect to checkout
+    window.location.href = '/checkout';
+});
+
+function goBack() {
+    window.history.back();
+}
+
+// Notification function
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 px-6 py-4 rounded-xl shadow-lg transition-all duration-300 ${
+        type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+    }`;
+    notification.innerHTML = `
+        <div class="flex items-center">
+            <i class="fas fa-${type === 'success' ? 'check' : 'times'} mr-2"></i>
+            ${message}
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+</script>
+
+<%- include('partials/footer') %>

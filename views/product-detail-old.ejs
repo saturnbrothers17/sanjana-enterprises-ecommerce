@@ -1,0 +1,450 @@
+<%- include('partials/header') %>
+
+<!-- Breadcrumb -->
+<nav class="bg-gray-100 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center space-x-2 text-sm">
+            <a href="/" class="text-primary-600 hover:text-primary-800">Home</a>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+            <a href="/products" class="text-primary-600 hover:text-primary-800">Products</a>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+            <a href="/products?category=<%= product.category %>" class="text-primary-600 hover:text-primary-800"><%= product.category %></a>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+            <span class="text-gray-600"><%= product.name %></span>
+        </div>
+    </div>
+</nav>
+
+<!-- Product Detail Section -->
+<section class="py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Product Images -->
+            <div class="space-y-4">
+                <div class="aspect-square bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img id="main-product-image" src="<%= product.image %>" alt="<%= product.name %>" 
+                         class="w-full h-full object-cover">
+                </div>
+                
+                <!-- Thumbnail Images -->
+                <div class="flex space-x-4 overflow-x-auto">
+                    <button onclick="changeProductImage('<%= product.image %>')" 
+                            class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-primary-600">
+                        <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-full object-cover">
+                    </button>
+                    <button onclick="changeProductImage('<%= product.image %>')" 
+                            class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-gray-200 hover:border-primary-600">
+                        <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-full object-cover">
+                    </button>
+                    <button onclick="changeProductImage('<%= product.image %>')" 
+                            class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-gray-200 hover:border-primary-600">
+                        <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-full object-cover">
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Product Info -->
+            <div class="space-y-6">
+                <!-- Product Title and Rating -->
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= product.name %></h1>
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="flex items-center">
+                            <div class="flex text-yellow-400">
+                                <% for(let i = 0; i < 5; i++) { %>
+                                    <i class="fas fa-star <%= i < Math.floor(product.rating) ? '' : 'text-gray-300' %>"></i>
+                                <% } %>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-600">(<%= product.reviews %> reviews)</span>
+                        </div>
+                        <span class="text-sm text-gray-500">|</span>
+                        <span class="text-sm text-<%= product.inStock ? 'green' : 'red' %>-600 font-medium">
+                            <%= product.inStock ? 'In Stock' : 'Out of Stock' %>
+                        </span>
+                    </div>
+                    <p class="text-gray-600"><%= product.category %></p>
+                </div>
+                
+                <!-- Price -->
+                <div class="border-t border-b border-gray-200 py-6">
+                    <div class="flex items-center space-x-4">
+                        <span class="text-4xl font-bold text-primary-600">₹<%= product.price.toLocaleString() %></span>
+                        <% if (product.originalPrice > product.price) { %>
+                            <span class="text-xl text-gray-500 line-through">₹<%= product.originalPrice.toLocaleString() %></span>
+                            <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-sm font-semibold">
+                                <%= Math.round((1 - product.price / product.originalPrice) * 100) %>% OFF
+                            </span>
+                        <% } %>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Inclusive of all taxes</p>
+                </div>
+                
+                <!-- Product Description -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Description</h3>
+                    <p class="text-gray-700 leading-relaxed"><%= product.description %></p>
+                </div>
+                
+                <!-- Key Features -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Key Features</h3>
+                    <ul class="space-y-2">
+                        <% product.features.forEach(feature => { %>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span class="text-gray-700"><%= feature %></span>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+                
+                <!-- Quantity and Add to Cart -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                        <div class="flex items-center border border-gray-300 rounded-lg">
+                            <button onclick="decreaseQuantity('quantity')" 
+                                    class="px-3 py-2 text-gray-600 hover:text-gray-800">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input type="number" id="quantity" value="1" min="1" max="10" 
+                                   class="w-16 text-center border-0 focus:ring-0">
+                            <button onclick="increaseQuantity('quantity')" 
+                                    class="px-3 py-2 text-gray-600 hover:text-gray-800">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <% if (product.inStock) { %>
+                            <button onclick="addToCart(<%= product.id %>, document.getElementById('quantity').value)" 
+                                    class="flex-1 btn-primary">
+                                <i class="fas fa-cart-plus mr-2"></i>
+                                Add to Cart
+                            </button>
+                        <% } else { %>
+                            <button disabled class="flex-1 bg-gray-400 text-white py-3 px-6 rounded-lg cursor-not-allowed">
+                                <i class="fas fa-times mr-2"></i>
+                                Out of Stock
+                            </button>
+                        <% } %>
+                        <button onclick="addToWishlist(<%= product.id %>)" 
+                                class="btn-secondary">
+                            <i class="fas fa-heart mr-2"></i>
+                            Wishlist
+                        </button>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button class="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-3 px-6 rounded-lg transition-colors">
+                            <i class="fas fa-bolt mr-2"></i>
+                            Buy Now
+                        </button>
+                        <button onclick="addToCompare(<%= product.id %>)" 
+                                class="btn-secondary">
+                            <i class="fas fa-balance-scale mr-2"></i>
+                            Compare
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Additional Info -->
+                <div class="bg-gray-50 rounded-lg p-4 space-y-3">
+                    <div class="flex items-center">
+                        <i class="fas fa-truck text-primary-600 mr-3"></i>
+                        <span class="text-sm text-gray-700">Free delivery on orders above ₹5,000</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-undo text-primary-600 mr-3"></i>
+                        <span class="text-sm text-gray-700">7-day return policy</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt text-primary-600 mr-3"></i>
+                        <span class="text-sm text-gray-700">2-year warranty included</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-headset text-primary-600 mr-3"></i>
+                        <span class="text-sm text-gray-700">24/7 customer support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Details Tabs -->
+<section class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-lg" x-data="{ activeTab: 'specifications' }">
+            <!-- Tab Headers -->
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-8 px-6">
+                    <button @click="activeTab = 'specifications'" 
+                            :class="activeTab === 'specifications' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                        Specifications
+                    </button>
+                    <button @click="activeTab = 'reviews'" 
+                            :class="activeTab === 'reviews' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                        Reviews (<%= product.reviews %>)
+                    </button>
+                    <button @click="activeTab = 'shipping'" 
+                            :class="activeTab === 'shipping' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                        Shipping & Returns
+                    </button>
+                </nav>
+            </div>
+            
+            <!-- Tab Content -->
+            <div class="p-6">
+                <!-- Specifications Tab -->
+                <div x-show="activeTab === 'specifications'" class="space-y-4">
+                    <h3 class="text-lg font-semibold mb-4">Product Specifications</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-2">General</h4>
+                            <dl class="space-y-2">
+                                <div class="flex justify-between">
+                                    <dt class="text-sm text-gray-600">Brand</dt>
+                                    <dd class="text-sm font-medium">Sanjana Medical</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-sm text-gray-600">Model</dt>
+                                    <dd class="text-sm font-medium">SM-<%= product.id %>01</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-sm text-gray-600">Category</dt>
+                                    <dd class="text-sm font-medium"><%= product.category %></dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-sm text-gray-600">Warranty</dt>
+                                    <dd class="text-sm font-medium">2 Years</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-2">Technical</h4>
+                            <dl class="space-y-2">
+                                <div class="flex justify-between">
+                                    <dt class="text-sm text-gray-600">Power Source</dt>
+                                    <dd class="text-sm font-medium">Battery/AC Adapter</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-sm text-gray-600">Display</dt>
+                                    <dd class="text-sm font-medium">LCD Digital</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-sm text-gray-600">Certification</dt>
+                                    <dd class="text-sm font-medium">ISO 13485, CE</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-sm text-gray-600">Weight</dt>
+                                    <dd class="text-sm font-medium">0.5 kg</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reviews Tab -->
+                <div x-show="activeTab === 'reviews'" class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold">Customer Reviews</h3>
+                        <button class="btn-primary">Write a Review</button>
+                    </div>
+                    
+                    <!-- Review Summary -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <div class="flex items-center space-x-6">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-primary-600"><%= product.rating %></div>
+                                <div class="flex text-yellow-400 justify-center mb-1">
+                                    <% for(let i = 0; i < 5; i++) { %>
+                                        <i class="fas fa-star <%= i < Math.floor(product.rating) ? '' : 'text-gray-300' %>"></i>
+                                    <% } %>
+                                </div>
+                                <div class="text-sm text-gray-600"><%= product.reviews %> reviews</div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-sm w-8">5★</span>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
+                                            <div class="bg-yellow-400 h-2 rounded-full" style="width: 70%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-600">70%</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm w-8">4★</span>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
+                                            <div class="bg-yellow-400 h-2 rounded-full" style="width: 20%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-600">20%</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm w-8">3★</span>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
+                                            <div class="bg-yellow-400 h-2 rounded-full" style="width: 7%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-600">7%</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm w-8">2★</span>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
+                                            <div class="bg-yellow-400 h-2 rounded-full" style="width: 2%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-600">2%</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm w-8">1★</span>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
+                                            <div class="bg-yellow-400 h-2 rounded-full" style="width: 1%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-600">1%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Individual Reviews -->
+                    <div class="space-y-6">
+                        <div class="border-b border-gray-200 pb-6">
+                            <div class="flex items-start space-x-4">
+                                <img src="/images/user-1.jpg" alt="User" class="w-10 h-10 rounded-full">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-1">
+                                        <h4 class="font-medium">Dr. Priya Sharma</h4>
+                                        <div class="flex text-yellow-400">
+                                            <i class="fas fa-star text-sm"></i>
+                                            <i class="fas fa-star text-sm"></i>
+                                            <i class="fas fa-star text-sm"></i>
+                                            <i class="fas fa-star text-sm"></i>
+                                            <i class="fas fa-star text-sm"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Verified Purchase • 2 days ago</p>
+                                    <p class="text-gray-700">Excellent product! Very accurate readings and easy to use. The display is clear and the device feels well-built. Highly recommended for professional use.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-b border-gray-200 pb-6">
+                            <div class="flex items-start space-x-4">
+                                <img src="/images/user-2.jpg" alt="User" class="w-10 h-10 rounded-full">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-1">
+                                        <h4 class="font-medium">Rajesh Kumar</h4>
+                                        <div class="flex text-yellow-400">
+                                            <i class="fas fa-star text-sm"></i>
+                                            <i class="fas fa-star text-sm"></i>
+                                            <i class="fas fa-star text-sm"></i>
+                                            <i class="fas fa-star text-sm"></i>
+                                            <i class="far fa-star text-sm"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Verified Purchase • 1 week ago</p>
+                                    <p class="text-gray-700">Good value for money. Works as expected and delivery was fast. The only minor issue is that the instruction manual could be more detailed.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Shipping Tab -->
+                <div x-show="activeTab === 'shipping'" class="space-y-6">
+                    <h3 class="text-lg font-semibold">Shipping & Returns</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-medium mb-3">Shipping Information</h4>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    Free shipping on orders above ₹5,000
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    Standard delivery: 3-5 business days
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    Express delivery: 1-2 business days (₹200 extra)
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    Cash on delivery available
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium mb-3">Return Policy</h4>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    7-day return policy
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    Free return pickup
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    Full refund on unused items
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    Original packaging required
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products -->
+<% if (relatedProducts.length > 0) { %>
+<section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">Related Products</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <% relatedProducts.forEach(product => { %>
+                <div class="card overflow-hidden group">
+                    <div class="relative overflow-hidden">
+                        <img src="<%= product.image %>" alt="<%= product.name %>" 
+                             class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <% if (product.originalPrice > product.price) { %>
+                            <div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-semibold">
+                                <%= Math.round((1 - product.price / product.originalPrice) * 100) %>% OFF
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2 group-hover:text-primary-600 transition-colors">
+                            <a href="/product/<%= product.id %>"><%= product.name %></a>
+                        </h3>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-primary-600">₹<%= product.price.toLocaleString() %></span>
+                            <div class="flex text-yellow-400">
+                                <% for(let i = 0; i < 5; i++) { %>
+                                    <i class="fas fa-star <%= i < Math.floor(product.rating) ? '' : 'text-gray-300' %> text-sm"></i>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</section>
+<% } %>
+
+<%- include('partials/footer') %>

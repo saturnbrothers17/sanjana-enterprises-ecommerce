@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
+    <!-- Socket.IO for real-time updates -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="/js/realtime.js" defer></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Main Navigation -->
+    <nav class="bg-white/95 backdrop-blur-md shadow-xl sticky top-0 z-50 border-b border-gray-100" x-data="{ mobileOpen: false, searchOpen: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-3 group">
+                        <div class="relative">
+                            <div class="bg-gradient-to-br from-primary-600 to-primary-700 text-white p-3 rounded-2xl shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-105">
+                                <i class="fas fa-heartbeat text-2xl"></i>
+                            </div>
+                            <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-black text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
+                                Sanjana Enterprises
+                            </h1>
+                            <p class="text-sm font-medium text-primary-600 tracking-wide">Medical Equipment Excellence</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-1">
+                    <a href="/" class="nav-link group relative px-4 py-2 rounded-xl transition-all duration-300 hover:bg-primary-50">
+                        <span class="relative z-10 font-semibold text-gray-700 group-hover:text-primary-600">Home</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    </a>
+                    <a href="/products" class="nav-link group relative px-4 py-2 rounded-xl transition-all duration-300 hover:bg-primary-50">
+                        <span class="relative z-10 font-semibold text-gray-700 group-hover:text-primary-600">Products</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    </a>
+                    <a href="/about" class="nav-link group relative px-4 py-2 rounded-xl transition-all duration-300 hover:bg-primary-50">
+                        <span class="relative z-10 font-semibold text-gray-700 group-hover:text-primary-600">About</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    </a>
+                    <a href="/contact" class="nav-link group relative px-4 py-2 rounded-xl transition-all duration-300 hover:bg-primary-50">
+                        <span class="relative z-10 font-semibold text-gray-700 group-hover:text-primary-600">Contact</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    </a>
+                </div>
+
+                <!-- Right side -->
+                <div class="flex items-center space-x-3">
+                    <!-- Search -->
+                    <div class="hidden xl:block">
+                        <form action="/products" method="GET" class="relative">
+                            <input type="text" name="search" placeholder="Search medical equipment..." 
+                                   class="w-80 pl-12 pr-16 py-3 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-300 text-sm">
+                            <i class="fas fa-search absolute left-4 top-4 text-gray-400"></i>
+                            <button type="submit" class="absolute right-2 top-2 bg-primary-600 hover:bg-primary-700 text-white p-2 rounded-xl transition-colors duration-300">
+                                <i class="fas fa-search text-sm"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Search Toggle (Mobile/Tablet) -->
+                    <button @click="searchOpen = !searchOpen" class="xl:hidden p-3 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all duration-300">
+                        <i class="fas fa-search text-lg"></i>
+                    </button>
+
+                    <!-- Cart -->
+                    <a href="/cart" class="relative p-3 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all duration-300 group">
+                        <i class="fas fa-shopping-cart text-lg group-hover:scale-110 transition-transform duration-300"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-600 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg animate-pulse">0</span>
+                    </a>
+
+                    <!-- Contact Button -->
+                    <a href="tel:+919876543210" class="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all duration-300 group" title="Call us now">
+                        <i class="fas fa-phone text-lg group-hover:scale-110 transition-transform duration-300"></i>
+                        <span class="hidden md:block font-medium">Call Now</span>
+                    </a>
+
+                    <!-- Mobile menu button -->
+                    <button @click="mobileOpen = !mobileOpen" class="lg:hidden p-3 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all duration-300">
+                        <i class="fas fa-bars text-lg" x-show="!mobileOpen"></i>
+                        <i class="fas fa-times text-lg" x-show="mobileOpen"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Search -->
+        <div x-show="searchOpen" x-transition class="xl:hidden border-t border-gray-100 bg-white p-4">
+            <form action="/products" method="GET" class="relative">
+                <input type="text" name="search" placeholder="Search medical equipment..." 
+                       class="w-full pl-12 pr-16 py-3 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-300">
+                <i class="fas fa-search absolute left-4 top-4 text-gray-400"></i>
+                <button type="submit" class="absolute right-2 top-2 bg-primary-600 hover:bg-primary-700 text-white p-2 rounded-xl transition-colors duration-300">
+                    <i class="fas fa-search text-sm"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div x-show="mobileOpen" x-transition class="lg:hidden border-t border-gray-100 bg-white">
+            <div class="px-4 py-6 space-y-2">
+                <a href="/" class="block px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-xl font-medium transition-all duration-300">
+                    <i class="fas fa-home mr-3"></i>Home
+                </a>
+                <a href="/products" class="block px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-xl font-medium transition-all duration-300">
+                    <i class="fas fa-boxes mr-3"></i>Products
+                </a>
+                <a href="/about" class="block px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-xl font-medium transition-all duration-300">
+                    <i class="fas fa-info-circle mr-3"></i>About
+                </a>
+                <a href="/contact" class="block px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-xl font-medium transition-all duration-300">
+                    <i class="fas fa-phone mr-3"></i>Contact
+                </a>
+                
+                <div class="pt-4 border-t border-gray-200">
+                    <div class="flex items-center justify-between text-sm text-gray-600 mb-3">
+                        <span>Quick Links</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="/cart" class="flex items-center justify-center px-3 py-2 bg-primary-50 text-primary-600 rounded-lg font-medium">
+                            <i class="fas fa-shopping-cart mr-2"></i>Cart
+                        </a>
+                        <a href="/wishlist" class="flex items-center justify-center px-3 py-2 bg-red-50 text-red-600 rounded-lg font-medium">
+                            <i class="fas fa-heart mr-2"></i>Wishlist
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>

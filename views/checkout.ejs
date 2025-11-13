@@ -1,0 +1,395 @@
+<%- include('partials/header') %>
+
+<!-- Modern Checkout Page -->
+<section class="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 py-12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Progress Indicator -->
+        <div class="mb-12">
+            <div class="flex items-center justify-center space-x-4 mb-8">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="ml-3 text-green-600 font-semibold">Customer Info</span>
+                </div>
+                <div class="w-16 h-1 bg-green-500 rounded"></div>
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                    <span class="ml-3 text-blue-600 font-semibold">Checkout</span>
+                </div>
+                <div class="w-16 h-1 bg-gray-300 rounded"></div>
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">3</div>
+                    <span class="ml-3 text-gray-500 font-semibold">Confirmation</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Order Summary -->
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Customer Information Review -->
+                <div class="bg-white rounded-3xl shadow-lg p-8 border border-gray-200">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+                            <i class="fas fa-user text-blue-600 mr-3"></i>
+                            Customer Information
+                        </h2>
+                        <button onclick="editCustomerInfo()" class="text-blue-600 hover:text-blue-700 font-semibold text-sm">
+                            <i class="fas fa-edit mr-1"></i>Edit
+                        </button>
+                    </div>
+                    
+                    <div id="customerInfoDisplay" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Customer info will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Order Items -->
+                <div class="bg-white rounded-3xl shadow-lg p-8 border border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                        <i class="fas fa-shopping-cart text-blue-600 mr-3"></i>
+                        Order Items
+                    </h2>
+                    
+                    <div id="orderItemsDisplay" class="space-y-4">
+                        <!-- Order items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="bg-white rounded-3xl shadow-lg p-8 border border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                        <i class="fas fa-credit-card text-blue-600 mr-3"></i>
+                        Payment Method
+                    </h2>
+                    
+                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-truck text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-green-800">Pay on Delivery</h3>
+                                    <p class="text-green-600 text-sm">Cash payment when your order arrives</p>
+                                </div>
+                            </div>
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 p-4 bg-white rounded-xl border border-green-200">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-info-circle text-green-600 mt-1"></i>
+                                <div class="text-sm text-green-700">
+                                    <p class="font-semibold mb-1">Payment Instructions:</p>
+                                    <ul class="space-y-1 text-green-600">
+                                        <li>• Pay in cash when the product is delivered</li>
+                                        <li>• Please keep exact amount ready</li>
+                                        <li>• Our delivery executive will provide a receipt</li>
+                                        <li>• Inspect the product before making payment</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Equipment Notice -->
+                <div class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-3xl p-8">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-medical-kit mr-3"></i>
+                        Medical Equipment Notice
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-blue-100">
+                        <div>
+                            <h4 class="font-semibold mb-2">Quality Assurance</h4>
+                            <ul class="space-y-1 text-sm">
+                                <li>• ISO 13485 Certified</li>
+                                <li>• FDA Approved Products</li>
+                                <li>• CE Marking Compliant</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">After-Sales Support</h4>
+                            <ul class="space-y-1 text-sm">
+                                <li>• 2 Year Warranty</li>
+                                <li>• Free Installation Support</li>
+                                <li>• 24/7 Technical Helpline</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Total & Place Order -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-3xl shadow-lg p-8 border border-gray-200 sticky top-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                        <i class="fas fa-calculator text-blue-600 mr-3"></i>
+                        Order Total
+                    </h2>
+                    
+                    <div id="orderTotalDisplay" class="space-y-4 mb-8">
+                        <!-- Order total will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Delivery Information -->
+                    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 mb-8 border border-blue-200">
+                        <h3 class="font-bold text-blue-900 mb-3 flex items-center">
+                            <i class="fas fa-truck mr-2"></i>
+                            Delivery Information
+                        </h3>
+                        <div class="space-y-2 text-sm text-blue-700">
+                            <div class="flex items-center justify-between">
+                                <span>Estimated Delivery:</span>
+                                <span class="font-semibold">3-5 Business Days</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Delivery Charges:</span>
+                                <span class="font-semibold text-green-600">FREE</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Installation:</span>
+                                <span class="font-semibold text-green-600">Included</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms Agreement -->
+                    <div class="mb-8">
+                        <div class="flex items-start space-x-3">
+                            <input type="checkbox" id="finalTerms" required
+                                   class="mt-1 w-5 h-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="finalTerms" class="text-sm text-gray-700 leading-relaxed">
+                                I have reviewed all information and agree to the terms and conditions for this medical equipment purchase.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Place Order Button -->
+                    <button id="placeOrderBtn" onclick="placeOrder()" disabled
+                            class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-check-circle mr-3"></i>
+                        <span id="placeOrderText">Place Order</span>
+                    </button>
+
+                    <!-- Security Notice -->
+                    <div class="mt-6 p-4 bg-gray-50 rounded-xl">
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <i class="fas fa-shield-alt text-green-500"></i>
+                            <span>Your information is secure and encrypted</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+let customerInfo = {};
+let orderData = {};
+
+// Load data on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadCustomerInfo();
+    loadOrderData();
+    setupEventListeners();
+});
+
+function loadCustomerInfo() {
+    customerInfo = JSON.parse(sessionStorage.getItem('customerInfo') || '{}');
+    
+    if (Object.keys(customerInfo).length === 0) {
+        // Redirect back to customer info if no data
+        window.location.href = '/customer-info';
+        return;
+    }
+    
+    displayCustomerInfo();
+}
+
+function loadOrderData() {
+    orderData = JSON.parse(sessionStorage.getItem('orderData') || '{}');
+    
+    if (!orderData.product) {
+        // Redirect back if no product data
+        window.location.href = '/products';
+        return;
+    }
+    
+    displayOrderItems();
+    displayOrderTotal();
+}
+
+function displayCustomerInfo() {
+    const display = document.getElementById('customerInfoDisplay');
+    display.innerHTML = `
+        <div>
+            <h4 class="font-semibold text-gray-700 mb-2">Personal Details</h4>
+            <p class="text-gray-900">${customerInfo.firstName} ${customerInfo.lastName}</p>
+            <p class="text-gray-600">${customerInfo.email}</p>
+            <p class="text-gray-600">+91 ${customerInfo.mobile}</p>
+        </div>
+        <div>
+            <h4 class="font-semibold text-gray-700 mb-2">Delivery Address</h4>
+            <p class="text-gray-900">${customerInfo.address}</p>
+            <p class="text-gray-600">${customerInfo.city}, ${customerInfo.state} ${customerInfo.pincode}</p>
+            <p class="text-gray-600">${customerInfo.country}</p>
+        </div>
+    `;
+}
+
+function displayOrderItems() {
+    const display = document.getElementById('orderItemsDisplay');
+    const product = orderData.product;
+    const quantity = orderData.quantity || 1;
+    
+    display.innerHTML = `
+        <div class="flex items-center space-x-4 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl border border-blue-200">
+            <img src="${product.image || '/images/placeholder-medical.jpg'}" 
+                 alt="${product.name}" 
+                 class="w-20 h-20 object-cover rounded-xl">
+            <div class="flex-1">
+                <h3 class="text-lg font-bold text-gray-900">${product.name}</h3>
+                <p class="text-gray-600 text-sm">${product.category || 'Medical Equipment'}</p>
+                <div class="flex items-center space-x-4 mt-2">
+                    <span class="text-sm text-gray-600">Quantity: ${quantity}</span>
+                    <span class="text-sm text-gray-600">Price: ₹${product.price.toLocaleString()}</span>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-2xl font-bold text-blue-600">₹${(product.price * quantity).toLocaleString()}</div>
+                <div class="text-sm text-green-600 font-semibold">ISO Certified</div>
+            </div>
+        </div>
+    `;
+}
+
+function displayOrderTotal() {
+    const display = document.getElementById('orderTotalDisplay');
+    const product = orderData.product;
+    const quantity = orderData.quantity || 1;
+    const subtotal = product.price * quantity;
+    const shipping = 0; // Free shipping
+    const total = subtotal + shipping;
+    
+    display.innerHTML = `
+        <div class="space-y-3">
+            <div class="flex items-center justify-between py-2">
+                <span class="text-gray-600">Subtotal (${quantity} item${quantity > 1 ? 's' : ''})</span>
+                <span class="font-semibold">₹${subtotal.toLocaleString()}</span>
+            </div>
+            <div class="flex items-center justify-between py-2">
+                <span class="text-gray-600">Shipping & Handling</span>
+                <span class="font-semibold text-green-600">FREE</span>
+            </div>
+            <div class="flex items-center justify-between py-2">
+                <span class="text-gray-600">Installation</span>
+                <span class="font-semibold text-green-600">FREE</span>
+            </div>
+            <div class="border-t border-gray-200 pt-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xl font-bold text-gray-900">Total Amount</span>
+                    <span class="text-2xl font-bold text-blue-600">₹${total.toLocaleString()}</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function setupEventListeners() {
+    // Enable place order button when terms are accepted
+    document.getElementById('finalTerms').addEventListener('change', function() {
+        const placeOrderBtn = document.getElementById('placeOrderBtn');
+        placeOrderBtn.disabled = !this.checked;
+    });
+}
+
+function editCustomerInfo() {
+    window.location.href = '/customer-info';
+}
+
+function placeOrder() {
+    const placeOrderBtn = document.getElementById('placeOrderBtn');
+    const placeOrderText = document.getElementById('placeOrderText');
+    
+    // Disable button and show loading
+    placeOrderBtn.disabled = true;
+    placeOrderText.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing Order...';
+    
+    // Prepare order data
+    const orderDetails = {
+        customer: customerInfo,
+        product: orderData.product,
+        quantity: orderData.quantity || 1,
+        total: orderData.product.price * (orderData.quantity || 1),
+        paymentMethod: 'cod', // Cash on Delivery
+        orderDate: new Date().toISOString()
+    };
+    
+    // Submit order to server
+    fetch('/api/orders/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderDetails)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Store order confirmation data
+            sessionStorage.setItem('orderConfirmation', JSON.stringify(data.order));
+            
+            // Clear order data
+            sessionStorage.removeItem('orderData');
+            sessionStorage.removeItem('customerInfo');
+            
+            // Redirect to confirmation page
+            window.location.href = '/order-confirmation';
+        } else {
+            throw new Error(data.message || 'Failed to place order');
+        }
+    })
+    .catch(error => {
+        console.error('Error placing order:', error);
+        showNotification('Failed to place order. Please try again.', 'error');
+        
+        // Re-enable button
+        placeOrderBtn.disabled = false;
+        placeOrderText.innerHTML = '<i class="fas fa-check-circle mr-3"></i>Place Order';
+    });
+}
+
+// Notification function
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 px-6 py-4 rounded-xl shadow-lg transition-all duration-300 ${
+        type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+    }`;
+    notification.innerHTML = `
+        <div class="flex items-center">
+            <i class="fas fa-${type === 'success' ? 'check' : 'times'} mr-2"></i>
+            ${message}
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+</script>
+
+<%- include('partials/footer') %>
