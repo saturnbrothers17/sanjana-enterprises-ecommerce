@@ -5,6 +5,7 @@
 .env.local
 .env.production
 .env.*.local
+VERCEL_ENV_SETUP.md
 
 # ============================================
 # NODE MODULES & DEPENDENCIES
