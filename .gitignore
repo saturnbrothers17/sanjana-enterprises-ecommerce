@@ -117,7 +117,7 @@ dist
 # GATSBY FILES
 # ============================================
 .cache/
-public
+# public - We need this folder for our CSS and assets
 
 # ============================================
 # VUEPRESS BUILD OUTPUT

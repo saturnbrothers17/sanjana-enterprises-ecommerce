@@ -1,0 +1,10 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f8fafc"/>
+  <rect x="50" y="150" width="300" height="100" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="60" y="160" width="280" height="20" fill="#0ea5e9"/>
+  <rect x="40" y="200" width="20" height="60" fill="#64748b"/>
+  <rect x="340" y="200" width="20" height="60" fill="#64748b"/>
+  <rect x="30" y="250" width="40" height="20" fill="#1e293b"/>
+  <rect x="330" y="250" width="40" height="20" fill="#1e293b"/>
+  <text x="200" y="280" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="16">Hospital Bed Electric</text>
+</svg>
