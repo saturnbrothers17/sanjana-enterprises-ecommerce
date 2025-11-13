@@ -6,6 +6,7 @@
 .env.production
 .env.*.local
 VERCEL_ENV_SETUP.md
+DEPLOY_ALTERNATIVES.md
 
 # ============================================
 # NODE MODULES & DEPENDENCIES
