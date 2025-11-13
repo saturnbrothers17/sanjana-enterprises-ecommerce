@@ -515,7 +515,13 @@ app.use((req, res) => {
 // Security error handler (must be last)
 app.use(securityErrorHandler);
 
-app.listen(PORT, () => {
-  securityLogger.info(`Sanjana Enterprises server started securely on port ${PORT}`);
-  console.log(`Sanjana Enterprises server running securely on http://localhost:${PORT}`);
-});
+// Start server only if not in serverless environment
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    securityLogger.info(`Sanjana Enterprises server started securely on port ${PORT}`);
+    console.log(`Sanjana Enterprises server running securely on http://localhost:${PORT}`);
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;
